@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>社团活动室预约 · 轻量案例</title>
+<meta name="description" content="一个校园工具的产品案例：访谈 → 痛点锚点 → 产品判断。核心问题是占用状态没有单一事实来源。">
+<style>
+:root{
+  --ink:#1c2026; --ink2:#4a525e; --ink3:#767f8c;
+  --line:#e2e6ec; --bg:#ffffff; --bg2:#f7f9fc;
+  --blue:#2563a8; --blue-bg:#eef4fb;
+  --amber:#b0760e; --amber-bg:#fff8e8;
+  --green:#207a47; --green-bg:#eef8f1;
+  --red:#b03030; --red-bg:#fdf0f0;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  font-size:15.5px;line-height:1.75;
+}
+main{max-width:940px;margin:0 auto;padding:0 24px 96px}
+a{color:var(--blue)}
+code{font-family:var(--mono);font-size:.88em;background:var(--bg2);padding:2px 5px;border-radius:4px;border:1px solid var(--line)}
+
+/* ---------- hero ---------- */
+.hero{padding:64px 0 36px;border-bottom:2px solid var(--ink)}
+.kicker{font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);font-weight:700;margin-bottom:14px}
+.hero h1{font-size:38px;line-height:1.25;margin:0 0 14px;letter-spacing:-.01em}
+.lede{font-size:18.5px;line-height:1.65;color:var(--ink2);margin:0 0 22px;max-width:44em}
+.meta{list-style:none;display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0}
+.meta li{font-size:12.5px;padding:4px 11px;border:1px solid var(--line);border-radius:99px;color:var(--ink3);background:var(--bg2)}
+.meta li.warn{border-color:#f0d9a8;background:var(--amber-bg);color:#8a5d00;font-weight:600}
+
+/* ---------- sections ---------- */
+section{padding:44px 0 8px;border-bottom:1px solid var(--line)}
+section:last-of-type{border-bottom:none}
+h2{font-size:22px;margin:0 0 6px;letter-spacing:-.01em}
+h2 .n{color:var(--blue);font-family:var(--mono);font-size:17px;margin-right:9px;font-weight:600}
+.sub{color:var(--ink3);font-size:13.5px;margin:0 0 22px}
+h3{font-size:16px;margin:28px 0 10px}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin:5px 0}
+
+/* ---------- table ---------- */
+table{width:100%;border-collapse:collapse;margin:14px 0 18px;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--bg2);font-size:12.5px;color:var(--ink2);font-weight:700;white-space:nowrap}
+tbody tr:last-child td{border-bottom:1px solid var(--line)}
+td strong{color:var(--ink)}
+
+/* ---------- quote ---------- */
+blockquote{
+  margin:14px 0 18px;padding:14px 18px;background:var(--blue-bg);
+  border-left:3px solid var(--blue);border-radius:0 8px 8px 0;color:var(--ink2);font-size:15px;
+}
+blockquote p:last-child{margin-bottom:0}
+blockquote cite{display:block;margin-top:8px;font-style:normal;font-size:12.5px;color:var(--ink3)}
+
+/* ---------- callout ---------- */
+.note{margin:16px 0;padding:13px 16px;border-radius:8px;font-size:14px;border:1px solid var(--line);background:var(--bg2)}
+.note.amber{background:var(--amber-bg);border-color:#f0d9a8}
+.note.blue{background:var(--blue-bg);border-color:#cfe0f2}
+.note.green{background:var(--green-bg);border-color:#c9e6d4}
+.note.red{background:var(--red-bg);border-color:#f0cccc}
+.note .t{font-weight:700;display:block;margin-bottom:4px}
+.note p:last-child{margin-bottom:0}
+
+/* ---------- badges ---------- */
+.b{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:5px;white-space:nowrap;font-family:var(--mono)}
+.b.hi{background:var(--green-bg);color:var(--green);border:1px solid #c9e6d4}
+.b.mid{background:var(--amber-bg);color:var(--amber);border:1px solid #f0d9a8}
+.b.lo{background:var(--red-bg);color:var(--red);border:1px solid #f0cccc}
+.b.n{background:var(--bg2);color:var(--ink2);border:1px solid var(--line)}
+
+/* ---------- figure ---------- */
+figure{margin:18px 0 8px}
+figure img{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:10px}
+figcaption{font-size:12.5px;color:var(--ink3);margin-top:9px;text-align:center}
+
+/* ---------- grid ---------- */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.card{border:1px solid var(--line);border-radius:9px;padding:15px 17px;background:var(--bg2)}
+.card .h{font-weight:700;font-size:14.5px;margin-bottom:6px}
+.card p{font-size:13.5px;color:var(--ink2);margin:0}
+@media(max-width:680px){.grid{grid-template-columns:1fr}}
+
+footer{margin-top:40px;padding-top:22px;border-top:1px solid var(--line);font-size:13px;color:var(--ink3)}
+@media(max-width:680px){
+  .hero h1{font-size:29px}.lede{font-size:16.5px}main{padding:0 18px 64px}
+  th,td{padding:7px 9px;font-size:13px}
+}
+</style>
+</head>
+<body>
+<main>
+
+<header class="hero">
+  <div class="kicker">AIPM 轻量案例</div>
+  <h1>社团活动室预约</h1>
+  <p class="lede">让「现在到底谁在用这间房」成为所有相关方都能看到、<strong>随变更同步的事实</strong>。</p>
+  <ul class="meta">
+    <li>范围：仅活动室预约</li>
+    <li>方法：3 场模拟深访 → 痛点锚点 → 产品判断</li>
+    <li>受访者：使用者 ×2（高频 / 低频）＋ 管理者 ×1</li>
+    <li class="warn">全部用户数据为模拟访谈产出</li>
+  </ul>
+</header>
+
+<section>
+  <h2><span class="n">01</span>目标用户</h2>
+  <p class="sub">两个角色的痛点同源、方向相反</p>
+  <table>
+    <thead><tr><th>角色</th><th>是谁</th><th>行为特征</th></tr></thead>
+    <tbody>
+      <tr><td><strong>主要</strong></td><td><strong>高频</strong>社团活动组织者</td><td>自己排期、自己协调、自己承担后果。如甲（每周 4–5 次）</td></tr>
+      <tr><td><strong>次要</strong></td><td>场地管理者（社联干事）</td><td>受理咨询、现场协调、管钥匙。丙（每天 1–8 次咨询，全部走微信私聊）</td></tr>
+      <tr><td>边界对照</td><td>低频组织者</td><td>乙（每 1–2 周 1 次）——<strong>不在服务范围内</strong>，用来界定边界</td></tr>
+      <tr><td>不服务</td><td>学校 / 上级</td><td>需要报表，但不是使用者</td></tr>
+    </tbody>
+  </table>
+  <p>用户「不知道能不能用」，管理者「不知道谁在用」——<strong>同一个缺口，两侧都在承担。</strong></p>
+</section>
+
+<section>
+  <h2><span class="n">02</span>核心痛点</h2>
+  <p class="sub">占用状态没有单一事实来源　<span class="b hi">复现 2</span></p>
+  <blockquote>
+    <p>「我手里有系统，但系统只记'申请'；我手里有钥匙本，但那个只记'借还'。<strong>这两个东西对不上，而真正在里面的是人。</strong>」</p>
+    <cite>场地管理干事 · 丙</cite>
+  </blockquote>
+  <table>
+    <thead><tr><th>角色</th><th>原话</th></tr></thead>
+    <tbody>
+      <tr><td>甲（用户）</td><td>「<strong>我永远不确定那个房间到底是不是我们的</strong>」</td></tr>
+      <tr><td>丙（管理者）</td><td>「你要我说现在 2 号房有没有人，<strong>我答不上来</strong>」</td></tr>
+      <tr><td>乙（用户）</td><td>「想要的时间被占了，还得重新协调时间、通知社员」——<strong>预约时即发现，系统正常工作</strong>（作<strong>反例</strong>，不计入复现）</td></tr>
+    </tbody>
+  </table>
+  <div class="note blue">
+    <span class="t">为什么乙是反例</span>
+    <p>乙正常走了学校预约系统，在预约那一刻就发现时段被占——<strong>系统在这里是正常工作的</strong>。他的情况说明这个痛点是<strong>选择性的</strong>，不是所有人都遇到，因此不能算作同一个问题的第二次独立复现。</p>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">03</span>产品定位</h2>
+  <div class="grid">
+    <div class="card"><div class="h">❌ 不是</div><p>做一个预约系统</p></div>
+    <div class="card"><div class="h">✅ 是</div><p><strong>让占用状态成为相关方都能看到、随变更同步的事实</strong></p></div>
+  </div>
+  <p>学校<strong>已经有</strong>预约系统：乙在正常使用它，甲在绕过它——</p>
+  <blockquote><p>「严格说，我们没'预约'过。我是宣布了一下，就当占了。」</p><cite>音乐协会会长 · 甲</cite></blockquote>
+  <p><strong>缺的不是流程，是事实。</strong></p>
+  <h3>适用边界</h3>
+  <p>它解决<strong>高频场景的累积成本</strong>，不是低频场景的单次麻烦。甲（每周 4–5 次）痛感高；乙（每 1–2 周 1 次）原话「频率不算高，<strong>我也不确定专门使用一个新工具是否值得</strong>」。两人社团规模接近（50 vs 40 人）、工具几乎相同，<strong>差异只在频率，约 6–10 倍</strong>。</p>
+</section>
+
+<section>
+  <h2><span class="n">04</span>核心流程</h2>
+  <p class="sub">查看安排 → 提出变更 → 处理冲突</p>
+  <figure>
+    <img src="flow.webp" alt="社团活动室预约核心流程图：查看安排、提出变更、处理冲突三个阶段">
+    <figcaption>三阶段流程图。图中「双方确认」指确认新的<strong>计划安排</strong>；现场是否真有人在用，需到场单独确认，两者分开显示。</figcaption>
+  </figure>
+  <h3>设计决策 ← 用户原话</h3>
+  <table>
+    <thead><tr><th>#</th><th>设计决策</th><th>支撑原话</th><th>来源</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><strong>免个人注册</strong>；每社团一个专属入口</td><td>「有些人在手机上填完忘了保存，或者电脑上填了手机没同步。所以基本是废的」</td><td>甲</td></tr>
+      <tr><td>2</td><td>状态分层（计划 / 实际 / 存疑）</td><td>「系统只记'申请'……钥匙本只记'借还'。这两个东西对不上」</td><td>丙</td></tr>
+      <tr><td>3</td><td>冲突<strong>提示</strong>但不自动拦截</td><td>「我们没'预约'过。我是宣布了一下，就当占了」</td><td>甲</td></tr>
+      <tr><td>4</td><td>默认自行协商，<strong>不裁决</strong></td><td>「我们每次都是这样，说了也没用」</td><td>甲</td></tr>
+      <tr><td>5</td><td>可人工修正、可补登记</td><td><span class="b mid">属推导，材料中无直接原话</span></td><td>—</td></tr>
+      <tr><td>6</td><td>通知范围限定同场地同时段</td><td>「别在群里发就行」</td><td>甲</td></tr>
+      <tr><td>7</td><td>「没申请却占用」<strong>不惩罚</strong>，只补登记</td><td>「这个我也知道，但我管不了」（双侧默许）<br><span class="b mid">设计选择，待验证（H6）</span></td><td>丙</td></tr>
+    </tbody>
+  </table>
+  <div class="note amber">
+    <span class="t">第 5 条要如实说</span>
+    <p>「可人工修正」在材料里<strong>没有直接原话</strong>，是从甲「说了也没用」（缺少任何调整手段）推导出来的。<strong>属产品推导，不是用户要求。</strong></p>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">05</span>权限与状态规则</h2>
+  <h3>三条设计约束（来自用户原话）</h3>
+  <table>
+    <thead><tr><th>#</th><th>约束</th><th>依据</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><strong>低摩擦</strong>：免个人注册（每社团一个专属链接 / 二维码，点开即代表该社团）、免下载、一步完成</td><td>甲 / 乙</td></tr>
+      <tr><td>2</td><td><strong>可修正</strong>：必须留人工改动入口</td><td><span class="b mid">属推导</span></td></tr>
+      <tr><td>3</td><td><strong>低可见度</strong>：不对学校开放</td><td>甲 / 丙（双侧默许）</td></tr>
+    </tbody>
+  </table>
+  <div class="note blue">
+    <span class="t">专属链接的持有与重置</span>
+    <p>链接由社团负责人持有，可<strong>一键重置</strong>；重置后旧链接立即失效。</p>
+    <p><strong>已知风险（本期接受）</strong>：社团内任何拿到链接的人都能代表该社团操作。这是为换取「免个人注册」而<strong>刻意接受的代价</strong>。</p>
+  </div>
+  <h3>可见性矩阵</h3>
+  <table>
+    <thead><tr><th>角色</th><th>能看到</th><th>能改</th><th>明确不能</th></tr></thead>
+    <tbody>
+      <tr><td>社团使用者</td><td>同场地、同时段的占用状态与对方联系方式</td><td>本社团的状态</td><td>查看其他场地的全局台账</td></tr>
+      <tr><td>场地管理者</td><td><strong>当天</strong>全部场地的占用状态；历史只保留冲突与强制调整记录</td><td>全部（含强制调整）</td><td><strong>不提供导出</strong></td></tr>
+      <tr><td>学校 / 上级</td><td colspan="3"><strong>不开放</strong></td></tr>
+    </tbody>
+  </table>
+  <h3>三种状态来源，互不可信</h3>
+  <table>
+    <thead><tr><th>来源</th><th>记录什么</th><th>可信度</th><th>为什么不可信</th></tr></thead>
+    <tbody>
+      <tr><td>系统申请</td><td>有人<strong>打算</strong>用</td><td><span class="b lo">低</span></td><td>「有的人申请了但那天没去」</td></tr>
+      <tr><td>实际确认</td><td>真的在用</td><td><span class="b hi">高</span></td><td>需要有人主动确认（见假设 H5）</td></tr>
+      <tr><td>钥匙 / 准入</td><td>物理进入过</td><td><span class="b mid">中</span></td><td>走后门不经过钥匙</td></tr>
+    </tbody>
+  </table>
+  <p><strong>设计原则</strong>：不合并成单一状态字段——三个来源的差异必须<strong>对用户可见</strong>；冲突时以「实际确认」为准；每个状态都要能回答「这个结论是从哪来的」。</p>
+  <h3>信息不准确时怎么办</h3>
+  <table>
+    <thead><tr><th>情况</th><th>处置</th><th>关键约束</th></tr></thead>
+    <tbody>
+      <tr><td>申请了但没人来</td><td>超时未确认 → 标记<strong>可释放</strong>并通知候补</td><td>不自动取消，需人确认</td></tr>
+      <tr><td>没申请却有人在用</td><td>一键回报 → <strong>补充登记</strong></td><td><strong>不做惩罚</strong>（走后门是双侧默许，惩罚会直接导致弃用）</td></tr>
+      <tr><td>双方都申请了同一时段</td><td>展示双方 + 联系方式，默认走协商</td><td><strong>不自动裁决</strong></td></tr>
+      <tr><td>状态过期未更新</td><td>超过有效期显示「待更新 · 最后确认于 X」</td><td>过期 ≠ 空闲</td></tr>
+      <tr><td>协商不成需强制调整</td><td>仅场地管理者可发起，须填写原因</td><td>受影响社团在专属链接内收到通知，记录留痕</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2><span class="n">06</span>结论与假设</h2>
+  <p class="sub">判断依据沿用项目自身的规则：没有用户侧原话支撑的方案，就是产品经理的抄作业</p>
+  <h3>已确认结论（有原话 + 跨受访者核对）</h3>
+  <table>
+    <thead><tr><th>#</th><th>结论</th><th>依据</th><th>强度</th></tr></thead>
+    <tbody>
+      <tr><td>C1</td><td><strong>占用状态无单一事实来源</strong></td><td>甲 + 丙</td><td><span class="b hi">复现 2</span></td></tr>
+      <tr><td>C2</td><td><strong>非正式准入是双侧默许</strong></td><td>甲（使用方）+ 丙（管理方）</td><td><span class="b hi">复现 2</span></td></tr>
+      <tr><td>C3</td><td><strong>场地冲突造成实际损失</strong></td><td>甲 + 丙（5 号房）；丙对甲那次元旦事件的描述为佐证（时间对应为推断）</td><td><span class="b hi">复现 2</span> + <span class="b n">佐证 1</span></td></tr>
+    </tbody>
+  </table>
+  <div class="note">
+    <span class="t">复现 ≠ 佐证</span>
+    <p><strong>复现</strong> = 不同人<strong>各自独立经历</strong>（证明痛点普遍存在）；<strong>佐证</strong> = 不同来源描述<strong>同一次事件</strong>（证明这件事确实发生过）。佐证<strong>不计入复现</strong>——把佐证算进复现，等于把「1 件事有 2 个人证明」当成「2 件事」。</p>
+  </div>
+  <h3>待验证假设（<strong>不能当结论用</strong>）</h3>
+  <table>
+    <thead><tr><th>#</th><th>假设</th><th>状态</th></tr></thead>
+    <tbody>
+      <tr><td>H1</td><td>学校预约系统会<strong>同时接受两条冲突申请</strong></td><td><span class="b mid">待验证</span>　需可访问的真实系统；本项目为模拟场景，<strong>暂无验证对象</strong></td></tr>
+      <tr><td>H2</td><td>冲突频率（上学期 3 次 / 上月 2 次）</td><td><span class="b mid">口述估算</span>　无记录支撑</td></tr>
+      <tr><td>H3</td><td>「申请了没来 / 没申请却占用」的比例</td><td><span class="b lo">完全无数据</span></td></tr>
+      <tr><td>H4</td><td>变更频率高到无法人工维护记录</td><td><span class="b mid">口述</span></td></tr>
+      <tr><td>H5</td><td><strong>相关方愿意主动更新「实际占用」状态</strong></td><td><span class="b lo">决定产品成立与否</span>　与「低摩擦」偏好有张力：到场确认会不会像共享表一样被忘掉</td></tr>
+      <tr><td>H6</td><td>「不惩罚、只补登记」能让未申请的使用者愿意补登</td><td><span class="b mid">设计选择</span>　丙只证明了默许存在，没证明不惩罚有效</td></tr>
+    </tbody>
+  </table>
+  <div class="note amber">
+    <span class="t">两类必须自曝的危险</span>
+    <p><strong>① 把推导当发现</strong>：材料里<strong>从未出现任何具体功能方案</strong>，所有方案都是推出来的。被问到时要能立刻指出哪条是推导。<br>
+    <strong>② 把估算当基线</strong>：三位受访者给的所有数字全是口述估算，写进 PRD 的「当前基线」栏会踩「数字外壳 ≠ 可测量」。</p>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">07</span>为什么 MVP 暂时不需要 AI</h2>
+  <p class="sub">痛点性质决定：状态同步，不是语义理解</p>
+  <p>丙的那句话——「系统只记申请，钥匙本只记借还，这两个东西对不上」——<strong>是两个数据源不一致，不是看不懂消息</strong>。解法是「定义状态取值 + 展示来源差异 + 提供确认动作」，全部可穷举、可测试、可回滚。</p>
+  <p>反证：如果让 AI 来推断占用状态，它需要输入（聊天记录 / 照片 / 语音），<strong>而那恰恰引入了新的不可靠源</strong>——痛点本来就是「记录不可信」。</p>
+  <table>
+    <thead><tr><th>AI 的典型应用</th><th>在本场景的后果</th><th>依据</th></tr></thead>
+    <tbody>
+      <tr><td>自动拦截冲突申请</td><td>固化了用户最不满意的结果</td><td>甲：说了也没用</td></tr>
+      <tr><td>自动身份核验（人脸 / 定位）</td><td>与「低可见度」直接冲突</td><td>甲 + 丙</td></tr>
+      <tr><td>自动判定违约 / 异常</td><td>用户会直接弃用</td><td>甲（间接）</td></tr>
+    </tbody>
+  </table>
+  <p><strong>回看全部三场访谈：没有任何一位受访者提出过任何 AI 诉求。</strong>按项目自身的判据——只提「别人都在做 AI」、没有用户侧支撑的 AI 功能 = <strong>追热点，不是从用户出发</strong>。</p>
+  <div class="note green">
+    <span class="t">什么时候该加 AI（触发条件，不是「永远不加」）</span>
+    <p>若验证发现「用户不愿手动更新状态，但愿意在群里说」→ 从群聊<strong>抽取变更</strong>可能有价值。<strong>但前提是先有可信的状态模型接住它的输出，且要防群消息注入。</strong></p>
+  </div>
+  <p style="margin-top:22px"><strong>一句话：MVP 的敌人不是「不够智能」，是「不够可信」。</strong></p>
+</section>
+
+<section>
+  <h2><span class="n">08</span>方法与素材</h2>
+  <table>
+    <thead><tr><th>环节</th><th>做了什么</th></tr></thead>
+    <tbody>
+      <tr><td>访谈</td><td>3 场模拟深访：甲（音乐协会会长，高频）／ 乙（咖啡社长，低频）／ 丙（社联场地干事，管理侧）</td></tr>
+      <tr><td>锚点</td><td>把痛点拆成可复核的条目，逐条绑<strong>原话 + 频次 + 证据强度</strong>，并区分<strong>复现 / 佐证 / 矛盾 / 待测项</strong></td></tr>
+      <tr><td>工具</td><td>用自建的 PRD 工作流（硬规则门禁 H1–H10 + 软规则评分）把素材转成结构化草稿；确定性判断交给代码，语义判断才交给模型</td></tr>
+      <tr><td>交叉验证</td><td>用户侧（甲）与管理侧（丙）对 4 条关键事实独立描述一致（其中 1 条时间对应为推断）</td></tr>
+    </tbody>
+  </table>
+  <h3>已知缺口（主动说比被问出来强）</h3>
+  <table>
+    <thead><tr><th>#</th><th>缺口</th><th>影响</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>没有普通成员（参与者）视角</td><td>「学生愿不愿意配合」全是组织者的转述</td></tr>
+      <tr><td>2</td><td>三位受访者全是学生</td><td>两级审批的设定者（教职工）不在样本内</td></tr>
+      <tr><td>3</td><td>所有数字都是口述估算</td><td>冲突频率、变更频率、「申请≠实际」比例全部未实测</td></tr>
+      <tr><td>4</td><td>受访者乙只有问答稿</td><td>无现场观察、无追问、无日期，证据等级明显低于甲、丙</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<footer>
+  <p><strong>声明</strong>：本页全部用户数据为<strong>模拟访谈</strong>产出，人物、学校、社团、日期均为虚构，用于产品方法论演示。</p>
+  <p>做法：访谈 → 痛点锚点 → PRD 草稿 → 硬规则门禁。可核验的是<strong>方法</strong>，不是这些虚构数字。</p>
+  <p>作者：<a href="https://github.com/qihuai823">qihuai823</a> ｜ 相关作品：<a href="https://github.com/qihuai823/AI-office-competitor-daily">AI 办公竞品日报（Dify 多 Agent + 回放评测 Harness）</a></p>
+</footer>
+
+</main>
+</body>
+</html>
